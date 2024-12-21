@@ -1,0 +1,11 @@
+Metadata-Version: 2.1
+Name: expandtrans
+Version: 0.1
+Summary: ExpandTrans Client
+Home-page: https://github.com/yourusername/mypackage
+Author: Marcos Macedo
+Author-email: marcos.macedo@queensu.ca
+Classifier: Development Status :: 3 - Alpha
+Classifier: License :: OSI Approved :: MIT License
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown

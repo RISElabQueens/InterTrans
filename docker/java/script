@@ -1,0 +1,7 @@
+#!/bin/sh
+
+infile=$(realpath "$1")
+cp "$infile" /tmp/A.java
+cd /tmp && javac --module-path /usr/lib/javafx-sdk-22.0.1/lib --add-modules javafx.controls /tmp/A.java
+
+cd /tmp && (cat - | /usr/bin/java --module-path /usr/lib/javafx-sdk-22.0.1/lib --add-modules javafx.controls A)

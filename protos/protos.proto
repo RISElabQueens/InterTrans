@@ -1,0 +1,164 @@
+syntax = "proto3";
+
+
+option go_package = "../common";
+
+service TranslationService {
+    rpc BatchTranslate(BatchTranslationRequest) returns (BatchTranslationResponse);
+    rpc BatchTranslateCAK(BatchTranslationRequest) returns (BatchTranslationResponse);
+    rpc BatchPanEtAlTranslate(BatchTranslationRequest) returns (BatchTranslationResponse);
+    rpc BatchRunVerification(BatchVerificationRequest) returns (BatchVerificationResponse);
+}
+
+service InfrastructureService {
+    rpc LaunchInferenceEndpoint(StartEndpointRequest) returns (LaunchResponse);
+    rpc StopInferenceEndpoint(StopEndpointRequest) returns (LaunchResponse);
+}
+
+message TestSuite {
+    repeated FuzzyTestCase fuzzy_suite = 1;
+    repeated UnitTestCase unit_test_suite = 2;
+}
+
+message FuzzyTestCase {
+    string stdin_input = 1;
+    string expected_output = 2;
+}
+
+message ResponseFuzzyTestCase {
+    string stdin_input = 1;
+    string expected_output = 2;
+    string actual_output = 3;
+    bool passed = 4;
+    string executed_code = 5;
+}
+
+message ResponseUnitTestCase {
+    string source_code = 1;
+    string actual_output = 2;
+    bool passed = 3;
+    string executed_code = 4;
+}
+
+message UnitTestCase {
+    string language = 1;
+    string test_case = 2;
+    string imports = 3;
+}
+
+message TargetSignature {
+    string language = 1;
+    string signature = 2;   
+}
+
+message TranslationRequest {
+    string id = 1;
+    string seed_language = 2;
+    string target_language = 3;
+    string seed_code = 4;
+    TestSuite test_suite = 5;
+    repeated string used_languages  = 6;
+    string prompt_template_name = 7;
+    repeated TargetSignature target_signatures = 8;
+    string regex_template_name = 9;
+    string model_name = 10;
+    string extra_prompt_data = 11;
+}
+
+enum ResponseStatus {
+    PENDING = 0;
+    PROCESSING = 1;
+    FAILED = 2;
+    DONE = 3;
+    TRANSLATION_FOUND = 4;
+    SKIPPED_PARENT_FAILED = 5;
+    SKIPPED_TRANSLATION_FOUND = 6;
+}
+
+message ResponseTranslationEdge {
+    string prompt_template = 1;
+    string prompt = 2;
+    string translation_id = 3;
+    string input_language = 4;
+    string target_language = 5;
+    int32 level = 6;
+    bool success = 7;
+    string inference_output = 8;
+    string execution_output = 9;
+    string source_code = 10;
+    string extracted_source_code = 11;
+    int32 parent_edge_id = 12;
+    string status = 13;
+    repeated ResponseFuzzyTestCase fuzzy_tests = 14;
+    repeated ResponseUnitTestCase unit_tests = 15;
+    int32 edge_id = 16;
+    int64 wallTimeInference = 17;
+    int64 wallTimeTestExecution = 18;
+    bool usedMemoization = 19;
+    bool usedInferenceCache = 20;
+}
+
+message ResponseTranslationPath {
+    repeated ResponseTranslationEdge translation_edges  = 1;
+    repeated bool edge_index_memoized = 2;
+}
+
+message TranslationResponse {
+    TranslationRequest translation_request = 1;
+    repeated ResponseTranslationPath paths = 2;
+}
+
+message BatchTranslationRequest {
+    repeated TranslationRequest translation_requests = 1;
+    string id = 2;
+    string file_base_name = 3;
+    string file_save_path = 4;
+}
+
+message BatchTranslationResponse {
+    repeated TranslationResponse translation_responses = 1;
+    string request_id = 2;
+    bool returnedToDisk = 3;
+}
+
+message StartEndpointRequest {
+    string model_name = 1;
+    string gpu_id = 2;
+    string port = 3;
+    int64 seed = 4;
+    string api_token = 5;
+    string lora_path = 6;
+}
+
+message StopEndpointRequest {
+    int64 launch_id = 1;
+}
+
+message LaunchResponse {
+    int64 launch_id = 1;
+}
+
+message VerificationRequest {
+    string id = 1;
+    TestSuite test_suite = 2;
+    string inferenceOutput = 3;
+    string targetLanguage = 4;
+    string sourceLanguage = 5;
+}
+
+message VerificationResponse {
+    VerificationRequest verification_request = 1;
+    repeated ResponseFuzzyTestCase fuzzy_tests = 2;
+    repeated ResponseUnitTestCase unit_tests = 3;
+    string status = 6;
+}
+
+message BatchVerificationRequest {
+    repeated VerificationRequest verification_requests = 1;
+    string id = 2;
+}
+
+message BatchVerificationResponse {
+    VerificationRequest verification_requests = 1;
+    repeated VerificationResponse verification_responses = 2;
+}

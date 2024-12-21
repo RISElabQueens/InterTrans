@@ -1,0 +1,11 @@
+#!/bin/sh
+
+infile=$(realpath "$1")
+ln -sf "$infile" /root/src/main.rs
+cd /root
+
+if [ "$2" = "test" ]; then
+    cargo test
+else
+    cargo run
+fi

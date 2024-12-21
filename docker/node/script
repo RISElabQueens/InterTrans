@@ -1,0 +1,4 @@
+#!/bin/sh
+NODE_PATH="$NODE_PATH:/modules/node_modules"
+export NODE_PATH
+cat - | /usr/bin/node "$1"
