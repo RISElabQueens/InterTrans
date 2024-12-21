@@ -1,0 +1,73 @@
+numExecutionWorkers: 128
+numInferenceWorkers: 256
+useComputeEfficientMode: true
+serverAddress: 127.0.0.1
+serverPort: 50051
+earlyStop : false
+verifyIntermediateTranslations : false
+expansionIntermediaryNodes: 4
+applyRegexInferenceOnly: true
+useTranscoderTestFormat: true
+useInferenceCache: true
+useResponseCache: false
+useExecutionCache: true
+cacheDatabasePath: ../data/raw_outputs/cache/transcoder
+maxGeneratedTokens: 4096
+temperature: 0.7
+top-p: 0.95
+top-k: 10
+inferenceSeed: 51291074
+regexTemplates:
+  temperature: (?s)\x60\x60\x60(?:(?:javascript|java|cpp|csharp|python|script|rust|c|go|C\+\+|Javascript|JavaScript|Java|Python|C#|C|Rust|Script|Go))?(.+)\x60\x60\x60
+inferenceApiBaseUrls:
+  - http://localhost:8000/v1
+  - http://localhost:8001/v1
+  - http://localhost:8002/v1
+  - http://localhost:8003/v1
+  - http://localhost:8004/v1
+  - http://localhost:8005/v1
+inferenceApiToken: token
+executionContainers:
+  "Python":     "./singularity/img/python3.sif"
+  "JavaScript": "./singularity/img/node.sif"
+  "Java":       "./singularity/img/java.sif"
+  "C++":        "./singularity/img/cpp-clang.sif"
+  "Go":         "./singularity/img/golang.sif"
+  "Rust":         "./singularity/img/rust.sif"
+promptTemplates:
+  prompt_codenet: |
+    @@ Instruction
+    You are a skilled software developer proficient in multiple programming languages. Your task is to re-write the input source code. Below is the input source code written in {input_lang} that you should re-write into {target_lang} programming language. You must respond with the {target_lang} output code only. 
+
+    Source code:
+    ```
+    {input_code}
+    ```
+
+    @@ Response
+  prompt_humanevalx: |
+    @@ Instruction
+    You are a skilled software developer proficient in multiple programming languages. Your task is to re-write the input source code. Below is the input source code written in {input_lang} that you should re-write into {target_lang} programming language. You must respond with the {target_lang} output code only. 
+
+    Source code:
+    ```
+    {input_code}
+    ```
+
+    Your {target_lang} code must have this signature and include imports.
+    {signature}
+    
+    @@ Response
+  prompt_transcoder: |
+    @@ Instruction
+    You are a skilled software developer proficient in multiple programming languages. Your task is to re-write the input source code. Below is the input source code written in {input_lang} that you should re-write into {target_lang} programming language. You must respond with the {target_lang} output code only. 
+
+    Source code:
+    ```
+    {input_code}
+    ```
+
+    Your {target_lang} code must have this signature name:
+    {signature}
+    
+    @@ Response
