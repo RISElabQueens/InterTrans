@@ -3,4 +3,5 @@ _debug*
 **/__pycache__/
 __pycache__/
 /data/*
+!/data/README.md
 data.zip
