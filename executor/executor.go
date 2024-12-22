@@ -221,7 +221,7 @@ func WriteCodeToFilesystem(sourceCode string, language string) (string, string, 
 	dirPath := filepath.Join(tempDir, "POSSIBLY_DANGEROUS", language)
 	filePath := filepath.Join(dirPath, fileName)
 
-	err := os.MkdirAll(filepath.Dir(dirPath), 0755)
+	err := os.MkdirAll(dirPath, 0755)
 	if err != nil {
 		fmt.Printf("Error creating directory: %v\n", err)
 		return "", "", "", false

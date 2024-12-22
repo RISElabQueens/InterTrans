@@ -62,6 +62,13 @@ def load_as_df(path):
     df = to_pandas(json)
     return df
 
+def get_translation(request):
+    for path in request.paths:
+        for edge in path.translation_edges:
+            if edge.status == "TRANSLATION_FOUND":
+                return edge.extracted_source_code
+    return None
+
 def get_percentage_timeout(response):
     timeout = 0
     totaltests = 0
