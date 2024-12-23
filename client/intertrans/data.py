@@ -3,6 +3,56 @@ from google.protobuf.json_format import MessageToJson
 import json
 import os
 
+def response_to_pandas(grpc_batch_response):
+    all_edges = []
+
+    for response in grpc_batch_response.translation_responses:
+        seed_language = response.translation_request.seed_language
+        target_language = response.translation_request.target_language
+        id_request = response.translation_request.id
+        seed_code = response.translation_request.seed_code
+
+        for path in response.paths:
+
+            for index, edge in enumerate(path.translation_edges):
+                is_memoized = False
+
+                if index in path.edge_index_memoized:
+                    is_memoized = True
+
+                obj = {}
+                obj["seed_language"] = seed_language
+                obj["request_target_language"] = target_language
+                obj["request_id"] = id_request
+                obj["input_languages"] = edge.input_language
+                obj["target_languages"] = edge.target_language
+                obj["level"] = edge.level
+                obj["edge_id"] = int(edge.edge_id)
+                obj["parent_edge_id"] = int(edge.parent_edge_id)
+                obj["status"] = edge.status
+                obj["memoized"] = is_memoized
+                obj["failed_timeout"] = False
+                obj["extracted_code"] = edge.extracted_source_code
+                obj["inference_output"] = edge.inference_output
+
+                if hasattr(edge, 'fuzzy_tests'):
+                    tests = edge.fuzzy_tests
+                elif hasattr(edge, 'unit_tests'):
+                    tests = edge.unit_tests
+                else:
+                    tests = []
+
+                for itest, test in enumerate(tests):
+                    obj[f"test_{itest}_input"] = test.stdin_input
+                    if test.actual_output is not None:
+                        obj[f"test_{itest}_actual_output"] = test.actual_output
+                        if "CMD_TIMEOUT_KILLED" in test.actual_output:
+                            obj["failed_timeout"] = True
+
+                all_edges.append(obj)
+
+    return pd.DataFrame(all_edges)
+
 def to_pandas(grpc_batch_response):
     all_edges = []
 
@@ -13,7 +63,7 @@ def to_pandas(grpc_batch_response):
         seed_code = response['translation_request']['seed_code']
 
         for path in response['paths']:
-            print(len(path["translation_edges"]))
+
             for index, edge in enumerate(path["translation_edges"]):
                 is_memoized = False
 
@@ -56,6 +106,17 @@ def to_pandas(grpc_batch_response):
 def read_engine_output(path):
     with open(path) as f:
         return json.loads(f.read())
+    
+def get_ca_metric(df, k):
+    if k > 10:
+        raise ValueError("k must be less than 10")
+    
+    df = df.groupby('request_id').head(k)
+    total_requests = df.groupby('request_id')['status'].any().sum().item()
+    total_translations_found = df[(df['status'] == 'TRANSLATION_FOUND')]
+    total_found_at_least_one_translation = total_translations_found.groupby('request_id')['status'].any().sum().item()
+    ca_metric = total_found_at_least_one_translation / total_requests * 100
+    return ca_metric
     
 def load_as_df(path):
     json = read_engine_output(path)

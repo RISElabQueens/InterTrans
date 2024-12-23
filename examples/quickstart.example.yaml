@@ -11,7 +11,7 @@ useTranscoderTestFormat: false
 useInferenceCache: false
 useResponseCache: false
 useExecutionCache: true
-cacheDatabasePath: ../data/cache/humanevalx_codenet_ca10
+cacheDatabasePath: ../data/cache
 maxGeneratedTokens: 4096
 temperature: 0.7
 top-p: 0.95
@@ -24,11 +24,6 @@ inferenceApiBaseUrls:
 inferenceApiToken: token
 executionContainers:
   "Python":     "./singularity/img/python3.sif"
-  "JavaScript": "./singularity/img/node.sif"
-  "Java":       "./singularity/img/java.sif"
-  "C++":        "./singularity/img/cpp-clang.sif"
-  "Go":         "./singularity/img/golang.sif"
-  "Rust":         "./singularity/img/rust.sif"
 promptTemplates:
   prompt_codenet: |
     @@ Instruction
