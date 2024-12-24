@@ -45,6 +45,7 @@ type AppConfig struct {
 	Temperature                    float32           `yaml:"temperature"`
 	Seed                           int               `yaml:"inferenceSeed"`
 	DatabasePath                   string            `yaml:"cacheDatabasePath"`
+	InferenceBackend               string            `yaml:"inferenceBackend"`
 }
 
 var ConfigStore AppConfig

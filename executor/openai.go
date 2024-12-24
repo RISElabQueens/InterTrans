@@ -85,13 +85,17 @@ func GetChatCompletion(apiKey, message string, modelName string) (string, error)
 					Content: message,
 				},
 			},
-			MaxTokens:         common.ConfigStore.MaxGeneratedTokens,
-			SkipSpecialTokens: true,
-			Temperature:       common.ConfigStore.Temperature,
-			TopP:              common.ConfigStore.TopP,
-			TopK:              common.ConfigStore.TopK,
-			Seed:              common.ConfigStore.Seed,
+			MaxTokens:   common.ConfigStore.MaxGeneratedTokens,
+			Temperature: common.ConfigStore.Temperature,
+			TopP:        common.ConfigStore.TopP,
 		}
+
+		if common.ConfigStore.InferenceBackend == "vllm" {
+			requestBody.SkipSpecialTokens = true
+			requestBody.TopK = common.ConfigStore.TopK
+			requestBody.Seed = common.ConfigStore.Seed
+		}
+
 	} else {
 		requestBody = ChatCompletionRequest{
 			Model: modelName,
@@ -101,11 +105,14 @@ func GetChatCompletion(apiKey, message string, modelName string) (string, error)
 					Content: message,
 				},
 			},
-			MaxTokens:         common.ConfigStore.MaxGeneratedTokens,
-			SkipSpecialTokens: true,
-			Temperature:       common.ConfigStore.Temperature,
-			TopP:              common.ConfigStore.TopP,
-			TopK:              common.ConfigStore.TopK,
+			MaxTokens:   common.ConfigStore.MaxGeneratedTokens,
+			Temperature: common.ConfigStore.Temperature,
+			TopP:        common.ConfigStore.TopP,
+		}
+
+		if common.ConfigStore.InferenceBackend == "vllm" {
+			requestBody.SkipSpecialTokens = true
+			requestBody.TopK = common.ConfigStore.TopK
 		}
 	}
 
