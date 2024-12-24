@@ -1,0 +1,37 @@
+numExecutionWorkers: 4
+numInferenceWorkers: 2
+useComputeEfficientMode: true
+serverAddress: 127.0.0.1
+serverPort: 50051
+earlyStop : true
+verifyIntermediateTranslations : false
+expansionIntermediaryNodes: 3
+applyRegexInferenceOnly: true
+useTranscoderTestFormat: false
+useInferenceCache: false
+useResponseCache: false
+useExecutionCache: true
+cacheDatabasePath: ../data/cache
+maxGeneratedTokens: 4096
+temperature: 0.7
+top-p: 0.95
+top-k: 10
+inferenceSeed: -1
+regexTemplates:
+  temperature: (?s)\x60\x60\x60(?:(?:javascript|java|cpp|csharp|python|script|rust|c|go|C\+\+|Javascript|JavaScript|Java|Python|C#|C|Rust|Script|Go))?(.+)\x60\x60\x60
+inferenceApiBaseUrls:
+  - https://api.openai.com/v1
+inferenceApiToken:
+executionContainers:
+  "Python":     "./singularity/img/python3.sif"
+promptTemplates:
+  prompt_codenet: |
+    @@ Instruction
+    You are a skilled software developer proficient in multiple programming languages. Your task is to re-write the input source code. Below is the input source code written in {input_lang} that you should re-write into {target_lang} programming language. You must respond with the {target_lang} output code only. 
+
+    Source code:
+    ```
+    {input_code}
+    ```
+
+    @@ Response
