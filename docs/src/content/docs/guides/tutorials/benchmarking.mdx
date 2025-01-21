@@ -14,7 +14,7 @@ import { Aside } from '@astrojs/starlight/components';
 Benchmarking LLMs is crucial step in understanding the performance of the LLM in your dataset and to select best model for your use case. In this tutorial, we will show you how to benchmark a model using the InterTrans Engine. 
 
 ### Prerequisites
-We assume you have configured the InterTrans Engine and vLLM server. We will use the ```benchmark.example.yaml``` configuration located at the [root folder of the repository](https://github.com/RISElabQueens/intertrans/blob/main/quickstart.example.yaml), please refer to the [Configuration](/guides/configuration/) guide and set-up **Python Executor Container**.
+We assume you have configured the InterTrans Engine and vLLM server. We will use the ```benchmark.example.yaml``` configuration located at the [root folder of the repository](https://github.com/RISElabQueens/intertrans/blob/main/quickstart.example.yaml), please refer to the [Configuration](/InterTrans/guides/configuration/) guide and set-up **Python Executor Container**.
 
 #### Dataset
 [HumanEval-X](https://github.com/THUDM/CodeGeeX/blob/main/codegeex/benchmark/README.md) extends the python-only code generation evaluation dataset [HumanEval](https://github.com/openai/human-eval) with additional canonical solutions and test cases in six PLs: C++, Go, Java, JavaScript, Python, and Rust. We create a subset of 1,050 translation problems, stratified across the 30 source-target translation pairs. This subset is used in the [InterTrans paper](https://icse2025.hotcrp.com/doc/icse2025-paper1926-revised_manuscript.pdf) and will be used in this tutorial. **For simplicity, we will evaluate a model on a single translation pair** (Java to Python), but if you set-up all the executor containers in your configuration, you can evaluate the model on all the translation pairs.
@@ -28,7 +28,7 @@ The first step is to launch the vLLM server in a terminal with the model you wil
 ```bash
 vllm serve ise-uiuc/Magicoder-S-DS-6.7B --dtype auto --api-key token --port 8000 --host localhost
 ```
-<Aside>You can use the OpenAI API or any other compatible API as the inference backend instead of vLLM. Please find an example in the [Quickstart with OpenAI](/guides/tutorials/openai/) section.</Aside>
+<Aside>You can use the OpenAI API or any other compatible API as the inference backend instead of vLLM. Please find an example in the [Quickstart with OpenAI](/InterTrans/guides/tutorials/openai/) section.</Aside>
 
 Depending on your GPU, you may want to set ```--max-model-len``` to a lower value (e.g., ```--max-model-len 49024```) value to avoid running out of memory or try a smaller model. 
 
@@ -57,7 +57,7 @@ df_java_python = df[(df['source_language'] == 'Java') & (df['target_language'] =
 ```
 
 ### Step 5: Create the batch translation request
-Simular to the [Quickstart](/guides/tutorials/) guide, we will create a batch translation request with individual requests for each Java to Python translation pair sample in the benchmark.
+Simular to the [Quickstart](/InterTrans/guides/tutorials/) guide, we will create a batch translation request with individual requests for each Java to Python translation pair sample in the benchmark.
 
 ```python
 batch_request = ptpb.BatchTranslationRequest()
@@ -95,7 +95,7 @@ for index, row in df_java_python.iterrows():
 
     batch_request.translation_requests.append(request)
 ```
-Here you can see a few differences from the [Quickstart](/guides/tutorials/) guide. The HumanEval-X dataset uses Unit Test Cases (unlike CodeNet that uses Fuzzy Test Cases). Therefore, they are added to the request so InterTrans Engine can execute them on the translated code, to verify its correctness. Additionally, we add the signature of the target code to the request (as expected by the Unit Test), so the translated code has higher chances of having the correct function signature, and the function can be called correctly by the test case.
+Here you can see a few differences from the [Quickstart](/InterTrans/guides/tutorials/) guide. The HumanEval-X dataset uses Unit Test Cases (unlike CodeNet that uses Fuzzy Test Cases). Therefore, they are added to the request so InterTrans Engine can execute them on the translated code, to verify its correctness. Additionally, we add the signature of the target code to the request (as expected by the Unit Test), so the translated code has higher chances of having the correct function signature, and the function can be called correctly by the test case.
 
 ### Step 6: Submit the batch request
 Finally, we submit the batch request to the InterTrans Engine.

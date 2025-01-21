@@ -14,7 +14,7 @@ InterTrans instead attemps to exploit the multi-lingual capacity of LLMs and, wh
 Tree of Code Translations (ToCT) allows InterTrans to leverage intermediate generations in other PLs as a bridge towards the wanted translation in the target language B. 
 Our research demonstrates that this methodology achieves an absolute improvement of 18.3% to 43.3% in Computation Accuracy (CA) for InterTrans compared to Direct Translation (CA@10).
 
-<Image src="/assets/tree_of_code_translation.png" width="1600" height="900" alt="Example of Tree of Code Translation" />
+<Image src="InterTrans/assets/tree_of_code_translation.png" width="1600" height="900" alt="Example of Tree of Code Translation" />
 
 The image above shows an example of a Tree of Code Translation. The source program to be translated is in Python, and the target language is Java. The tree shows the intermediate translations in other languages that are used to bridge the gap between the source and target languages. The translation order is shown through the numbers on the edges of the tree. The initial translation from Python to Java (direct translation) is unsuccessful (red nodes), so the tree explores other languages to find a successful translation. It finally finds the correct translation in Java through intermediate translations in C++ (green node).
 
