@@ -1,4 +1,4 @@
-# 🛤️ InterTrans
+# 🛤️ InterTrans Engine
 
 **🚨 News (2025-01-21):** We're excited to share that our paper [*InterTrans: Leveraging Transitive Intermediate Translations to Enhance LLM-based Code Translation*](https://arxiv.org/abs/2411.01063) has been accepted to the Main Research Track of the [47th IEEE/ACM International Conference on Software Engineering (ICSE 2025)](https://conf.researchr.org/home/icse-2025)!
 
