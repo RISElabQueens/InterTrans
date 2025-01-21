@@ -7,8 +7,8 @@ import tailwind from '@astrojs/tailwind';
 // https://astro.build/config
 export default defineConfig({
     site: 'https://riselabqueens.github.io',
-    base: 'InterTrans',
-    output: "static",
+    base: '/InterTrans/',
+    output: 'static',
     integrations: [starlight({
         title: '🛤️ InterTrans Engine',
         customCss: [
