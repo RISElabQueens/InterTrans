@@ -15,8 +15,8 @@ import (
 
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/client"
-	"github.com/riselabqueens/intertrans/common"
-	. "github.com/riselabqueens/intertrans/common"
+	"github.com/RISElabQueens/intertrans/common"
+	. "github.com/RISElabQueens/intertrans/common"
 
 	"os/exec"
 	"path/filepath"

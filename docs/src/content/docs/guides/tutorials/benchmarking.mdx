@@ -14,7 +14,7 @@ import { Aside } from '@astrojs/starlight/components';
 Benchmarking LLMs is crucial step in understanding the performance of the LLM in your dataset and to select best model for your use case. In this tutorial, we will show you how to benchmark a model using the InterTrans Engine. 
 
 ### Prerequisites
-We assume you have configured the InterTrans Engine and vLLM server. We will use the ```benchmark.example.yaml``` configuration located at the [root folder of the repository](https://github.com/RISElabQueens/InterTrans/blob/main/quickstart.example.yaml), please refer to the [Configuration](/guides/configuration/) guide and set-up **Python Executor Container**.
+We assume you have configured the InterTrans Engine and vLLM server. We will use the ```benchmark.example.yaml``` configuration located at the [root folder of the repository](https://github.com/RISElabQueens/intertrans/blob/main/quickstart.example.yaml), please refer to the [Configuration](/guides/configuration/) guide and set-up **Python Executor Container**.
 
 #### Dataset
 [HumanEval-X](https://github.com/THUDM/CodeGeeX/blob/main/codegeex/benchmark/README.md) extends the python-only code generation evaluation dataset [HumanEval](https://github.com/openai/human-eval) with additional canonical solutions and test cases in six PLs: C++, Go, Java, JavaScript, Python, and Rust. We create a subset of 1,050 translation problems, stratified across the 30 source-target translation pairs. This subset is used in the [InterTrans paper](https://icse2025.hotcrp.com/doc/icse2025-paper1926-revised_manuscript.pdf) and will be used in this tutorial. **For simplicity, we will evaluate a model on a single translation pair** (Java to Python), but if you set-up all the executor containers in your configuration, you can evaluate the model on all the translation pairs.
@@ -140,4 +140,4 @@ You can create batch requests to translate whole datasets for benchmarking purpo
 
 You can get the full code for this tutorial here:
 
-🔗 [📒 benchmarking.ipynb](https://github.com/RISElabQueens/InterTrans/blob/main/examples/benchmarking.ipynb)
+🔗 [📒 benchmarking.ipynb](https://github.com/RISElabQueens/intertrans/blob/main/examples/benchmarking.ipynb)

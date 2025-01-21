@@ -12,7 +12,7 @@ import { Aside } from '@astrojs/starlight/components';
 In this tutorial we will learn how to use InterTrans Engine to translate source code. For this purpose, we will use a C++ example from the [CodeNet dataset](https://github.com/IBM/Project_CodeNet) and translate it to Python using the ToCT algorithm. 
 
 ### Prerequisites
-We assume you have configured the InterTrans Engine and vLLM server. We will use the ```examples/quickstart.example.yaml``` configuration located at the [root folder of the repository](https://github.com/RISElabQueens/InterTrans/blob/main/quickstart.example.yaml), please refer to the [Configuration](/guides/configuration/) guide and set-up **Python Executor Container**.
+We assume you have configured the InterTrans Engine and vLLM server. We will use the ```examples/quickstart.example.yaml``` configuration located at the [root folder of the repository](https://github.com/RISElabQueens/intertrans/blob/main/quickstart.example.yaml), please refer to the [Configuration](/guides/configuration/) guide and set-up **Python Executor Container**.
 
 #### Input Code
 This is the C++ code that we will translate to Python.
@@ -165,7 +165,7 @@ request_results = submit_request(batch_request, "localhost:50051")
 ```
 
 ### Step 5: Check the results
-The ```results``` variable now holds an instance of [BatchTranslationResponse](https://github.com/RISElabQueens/InterTrans/blob/0f21b23d49e88d7f2b159c6bfdd210897c5ae21b/protos/protos.proto#L118) that holds the ```TranslationResponse``` of every translation request.
+The ```results``` variable now holds an instance of [BatchTranslationResponse](https://github.com/RISElabQueens/intertrans/blob/0f21b23d49e88d7f2b159c6bfdd210897c5ae21b/protos/protos.proto#L118) that holds the ```TranslationResponse``` of every translation request.
 
 The requests are indexed according to the order added into the ```BatchTranslationRequest```. Therefore, we can access the results for our translation as follows:
 
@@ -174,7 +174,7 @@ translation_result = request_results.translation_responses[0]
 ```
 This will give us access to the data structure for the ToCT which includes the prompts, intermediate translations, execution times, final translation, verification results, and more.
 
-We can traverse these results by accessing the ```translation_results.paths``` list. Each element in the list is a [ResponseTranslationPath](https://github.com/RISElabQueens/InterTrans/blob/0f21b23d49e88d7f2b159c6bfdd210897c5ae21b/protos/protos.proto#L101) object that holds the data for a specific path in the ToCT. This is very powerful as it allows us to extract information about the translation process to use in further analysis, such as running evaluation metrics on the verification results (e.g. [Computational Accuracy](https://proceedings.neurips.cc/paper/2020/hash/ed23fbf18c2cd35f8c7f8de44f85c08d-Abstract.html), CodeBLEU) or for example use the results from the verification as input for a next iteration of translations (e.g. Iterative translation with compiler feedback).
+We can traverse these results by accessing the ```translation_results.paths``` list. Each element in the list is a [ResponseTranslationPath](https://github.com/RISElabQueens/intertrans/blob/0f21b23d49e88d7f2b159c6bfdd210897c5ae21b/protos/protos.proto#L101) object that holds the data for a specific path in the ToCT. This is very powerful as it allows us to extract information about the translation process to use in further analysis, such as running evaluation metrics on the verification results (e.g. [Computational Accuracy](https://proceedings.neurips.cc/paper/2020/hash/ed23fbf18c2cd35f8c7f8de44f85c08d-Abstract.html), CodeBLEU) or for example use the results from the verification as input for a next iteration of translations (e.g. Iterative translation with compiler feedback).
 
 To keep this tutorial simple, we will utilize the ```get_translation``` function that returns the translated code if the translation was found, or ```None``` if the translation was not found. **A translation is found if all the verification tests pass.**
 
@@ -205,4 +205,4 @@ As you can see, most of the work is on creating the requests, while InterTrans s
 
 You can get the full code for this tutorial here:
   
-🔗 [📒 quickstart.ipynb](https://github.com/RISElabQueens/InterTrans/blob/main/examples/quickstart.ipynb)
+🔗 [📒 quickstart.ipynb](https://github.com/RISElabQueens/intertrans/blob/main/examples/quickstart.ipynb)

@@ -6,7 +6,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/riselabqueens/intertrans/common"
+	"github.com/RISElabQueens/intertrans/common"
 )
 
 var mutex sync.Mutex

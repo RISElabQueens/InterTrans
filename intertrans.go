@@ -9,9 +9,9 @@ import (
 
 	"github.com/dgraph-io/badger/v4"
 	"github.com/gosuri/uiprogress"
-	"github.com/riselabqueens/intertrans/algo"
-	"github.com/riselabqueens/intertrans/common"
-	"github.com/riselabqueens/intertrans/executor"
+	"github.com/RISElabQueens/intertrans/algo"
+	"github.com/RISElabQueens/intertrans/common"
+	"github.com/RISElabQueens/intertrans/executor"
 	"google.golang.org/grpc"
 )
 

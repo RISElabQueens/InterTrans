@@ -1,4 +1,4 @@
-module github.com/riselabqueens/intertrans
+module github.com/RISElabQueens/intertrans
 
 go 1.22.3
 

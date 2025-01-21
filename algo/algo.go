@@ -11,9 +11,9 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/gosuri/uiprogress"
-	"github.com/riselabqueens/intertrans/common"
-	. "github.com/riselabqueens/intertrans/common"
-	. "github.com/riselabqueens/intertrans/executor"
+	"github.com/RISElabQueens/intertrans/common"
+	. "github.com/RISElabQueens/intertrans/common"
+	. "github.com/RISElabQueens/intertrans/executor"
 	"golang.org/x/sync/semaphore"
 )
 

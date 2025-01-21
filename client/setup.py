@@ -10,7 +10,7 @@ setup(
     description='InterTrans Client',
     long_description='',
     long_description_content_type='text/markdown',
-    url='https://github.com/RISElabQueens/InterTrans',
+    url='https://github.com/RISElabQueens/intertrans',
     classifiers=[
         'Development Status :: 3 - Alpha',
         'License :: OSI Approved :: MIT License',
