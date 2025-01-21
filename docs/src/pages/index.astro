@@ -1,0 +1,68 @@
+---
+import { Image } from 'astro:assets';
+---
+<html>
+    <head>
+        <meta charset="UTF-8"> 
+        <title>InterTrans: Leveraging Transitive Intermediate Translations to Enhance LLM-based Code Translation</title>
+        <meta name="description" content="InterTrans: Leveraging Transitive Intermediate Translations to Enhance LLM-based Code Translation">
+        <meta name="keywords" content="InterTrans, code translation, LLM, intermediate translations, Tree of Code Translation, ToCT, Computation Accuracy, CA, CodeNet, HumanEval-X, TransCoder">
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22><text y=%2218%22 font-size=%2218%22>🛤️</text></svg>">
+    </head>
+    <body class="flex justify-center pt-16 h-screen bg-white text-gray-800 pb-5" style="font-family: 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji', sans-serif;">
+        <main class="w-5/6 max-w-4xl mx-auto text-center">
+            <h1 class="text-4xl font-bold mb-4">
+                🛤️ InterTrans: Leveraging Transitive Intermediate Translations to Enhance LLM-based Code Translation
+            </h1>
+            <p class="text-base mb-4">
+                <a href="https://marcosmacedo.github.io/" class="text-blue-500 hover:underline mr-1">Marcos Macedo<sup>1</sup></a>,
+                <a href="https://sophiaytian.com/" class="text-blue-500 hover:underline mr-1">Yuan Tian<sup>1</sup></a>,
+                <a href="https://pengyunie.github.io/" class="text-blue-500 hover:underline mr-1">Pengyu Nie<sup>2</sup></a>,
+                <a href="https://www.filipecogo.pro/" class="text-blue-500 hover:underline mr-1">Filipe R. Cogo<sup>3</sup></a>,
+                <a href="https://mcis.cs.queensu.ca/" class="text-blue-500 hover:underline">Bram Adams<sup>1</sup></a>
+            </p>
+            <p class="text-sm mb-6 flex flex-col items-center">
+                <div>
+                    <span><sup>1</sup> School of Computing, Queen's University, Kingston, ON, Canada</span>
+                </div>
+                <div>
+                    <span><sup>2</sup> Cheriton School of Computer Science, University of Waterloo, Waterloo, ON, Canada</span>
+                </div>
+                <div class="mb-4">
+                    <span><sup>3</sup> Centre for Software Excellence, Huawei Canada, Kingston, ON, Canada</span>
+                </div>
+            </p>
+            <div class="flex justify-center gap-3">
+                <a class="bg-gray-800 text-white px-4 py-2 rounded-md text-base flex items-center gap-1 hover:bg-gray-700" href="https://arxiv.org/abs/2411.01063">📄 Arxiv</a>
+                <a class="bg-gray-800 text-white px-4 py-2 rounded-md text-base flex items-center gap-1 hover:bg-gray-700" href="https://github.com/RISElabQueens/InterTrans">💻 Code</a>
+                <a class="bg-gray-800 text-white px-4 py-2 rounded-md text-base flex items-center gap-1 hover:bg-gray-700" href="/guides">📑 Engine Documentation</a>
+            </div>
+            <div class="mt-3 bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-2 mb-4 text-sm" role="alert">
+                <p>🚄 Try out InterTrans Engine and speed up your code translation workflows. Click on the documentation above for more information.</p>
+            </div>
+            <div class="mt-6 mb-6">
+                <Image src="/assets/tree_of_code_translation.png" width="1600" height="900" alt="Example of Tree of Code Translation" />
+            </div>
+            <div class="text-left mb-6">
+                <p class="text-base">
+We introduce InterTrans, an LLM-based automated code translation approach that, in contrast to existing approaches, <strong>leverages intermediate translations across PLs to bridge the syntactic and semantic gaps between source and target PLs.</strong>
+InterTrans contains two stages. It first utilizes a novel <strong>Tree of Code Translation (ToCT)</strong> algorithm to plan transitive intermediate translation sequences between a given source and target PL, then validates them in a specific order. We evaluate InterTrans with three open LLMs on three benchmarks (i.e., CodeNet, HumanEval-X, and TransCoder) involving six PLs. Results show an <strong>absolute improvement between 18.3% to 43.3% in Computation Accuracy (CA)</strong> for InterTrans over Direct Translation with 10 attempts. The best-performing variant of InterTrans (with Magicoder LLM) achieved an average CA of 87.3%-95.4% on three benchmarks.
+                </p>
+            </div>
+            <div class="text-left mb-6">
+                <h2 class="text-2xl font-semibold mb-2">Citation</h2>
+                <p class="text-base mb-4">
+                    If you use InterTrans in your research, please cite our paper:
+                </p>
+                <pre class="bg-gray-100 p-4 rounded-md text-sm overflow-x-auto whitespace-pre-wrap">
+@article&#123;macedo2024intertrans, 
+    title=&#123;InterTrans: Leveraging Transitive Intermediate Translations to Enhance LLM-based Code Translation&#125;, 
+    author=&#123;Macedo, Marcos and Tian, Yuan and Nie, Pengyu and Cogo, Filipe R and Adams, Bram&#125;, 
+    journal=&#123;arXiv preprint arXiv:2411.01063&#125;, 
+    year=&#123;2024&#125; 
+&#125;</pre>
+            </div>
+            <div class="pb-10"></div>
+        </main>
+    </body>
+</html>

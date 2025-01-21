@@ -1,0 +1,57 @@
+---
+title: Installation
+description: Installing InterTrans Engine
+template: doc
+sidebar:
+    order: 3
+---
+import { Steps } from '@astrojs/starlight/components';
+import { Aside } from '@astrojs/starlight/components';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+## Prerequisites
+
+### Engine specific
+To ensure safe and efficient execution of translated code for evaluation, the InterTrans Engine relies on Singularity containers. Additionally, Go is required for installing the InterTrans Engine. 
+
+Before proceeding, please make sure the necessary prerequisites are installed. Use the following guides to complete the installation:
+
+- [🔗 Guide to Installing Go](https://golang.org/doc/install)
+- [🔗 Guide to Installing Singularity](https://docs.sylabs.io/guides/latest/user-guide/quick_start.html#quick-installation-steps)
+
+### Inference backend
+You can use the OpenAI API or any other inference tool that is compatible with OpenAI API specification. We officially support [vLLM](https://docs.vllm.ai/en/latest/), and we recommend it to be used as the inference backend. Other alternatives that we have not tested but should be compatible include HuggingFace Text Generation Interface and LiteLLM.
+
+- [🔗 Guide to Installing vLLM](https://docs.vllm.ai/en/latest/getting_started/installation.html)
+- [🔗 Guide to starting an OpenAI compatible server](https://docs.vllm.ai/en/latest/serving/openai_compatible_server.html#openai-compatible-server)
+
+## Installation
+<Aside>We are working on packaging InterTrans as a standalone executable. In the meantime, please run it directly from the repository as indicated below.</Aside>
+
+    <Steps>
+    1. Clone a version from the repository. Use "Latest" for the latest version and "Replication" for paper replication purposes.
+        <Tabs>
+        <TabItem label="Latest">
+        ```bash
+            git clone https://github.com/RISElabQueens/InterTrans
+            cd InterTrans
+            git checkout main
+            ```
+          </TabItem>
+            <TabItem label="Replication">
+            <Aside>This version should only be used when replicating the paper's results as it may not contain newer features and enhancements. You can download the data from the paper's experiments [clicking here](https://queensuca-my.sharepoint.com/:u:/g/personal/22dtfk_queensu_ca/EaBAUeorTCJJn_0_veaPJU0BodIj-XMX5FsGQYIAJYj0gA?e=63NSDK) to run the Notebooks without re-running the experiments.</Aside>
+            ```bash
+                git clone https://github.com/RISElabQueens/InterTrans
+                cd InterTrans
+                git checkout paper
+                ```
+            </TabItem>
+        </Tabs>
+
+    2. Install the Python client
+
+        ```bash
+        cd client
+        pip install -e .
+        ```
+    </Steps>

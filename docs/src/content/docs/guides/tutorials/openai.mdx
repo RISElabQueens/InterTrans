@@ -1,0 +1,210 @@
+---
+title: Quickstart with OpenAI API
+description: Using OpenAI API
+template: doc
+sidebar:
+    order: 7
+---
+import { Aside } from '@astrojs/starlight/components';
+
+### Introduction
+
+In the previous tutorial we explored the capabilities of InterTrans Engine using vLLM as the inference backend. This is very useful when utilizing open-source models. However, you may want to use a proprietary model or a model that is not available in the HuggingFace model hub. In this tutorial, we will show you how to use the OpenAI API as the inference backend for InterTrans Engine. **You can also use this tutorial to integrate any other API that is compatible with the OpenAI API.**
+
+### Prerequisites
+We assume you have configured the InterTrans Engine and an OpenAI API key. We will use the ```examples/quickstart.openai.example.yaml``` configuration located at the [root folder of the repository](https://github.com/RISElabQueens/InterTrans/blob/main/quickstart.example.yaml), please refer to the [Configuration](/guides/configuration/) guide and set-up **Python Executor Container**.
+
+#### Input Code
+This is the C++ code that we will translate to Python.
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+
+int main (){
+    int L;
+    cin>>L;
+    if(L<1200){
+        cout<<"ABC"<<endl;
+    }
+    else if(L<2800){
+        cout<<"ARC"<<endl;
+    }
+    else{
+        cout<<"AGC"<<endl;
+    }
+
+}
+```
+
+The code is accompanied by fuzzy tests, which are pairs of input-output examples that help verify the correctness of the translation. This is possible because the programs in CodeNet receive input from the standard input and print the output to the standard output.
+
+#### Fuzzy tests
+
+| stdin_input | expected_output |
+|-------------|-----------------|
+| 1199        | ABC             |
+| 1200        | ARC             |
+| 4208        | AGC             |
+
+### Step 1: Configure the OpenAI API key
+Open ```examples/quickstart.openai.example.yaml``` and replace the ```inferenceApiToken``` field with your OpenAI API key. 
+
+```yaml
+inferenceApiBaseUrls:
+  - https://api.openai.com/v1
+inferenceApiToken: replace_with_your_openai_api_key
+```
+
+As you can see from the setting in ```quickstart.openai.example.yaml``` you don't need to specify the ```inferenceBackend``` field as it is set to use an OpenAI Compatible API by default.
+
+### Step 2: Launch InterTrans Engine
+The next step is to launch the InterTrans Engine. We will use the ```quickstart.openai.example.yaml``` configuration file. 
+
+```bash
+    go run intertrans.go runserver quickstart.openai.example.yaml
+```
+
+### Step 3: Build the request
+Now that InterTrans Engine is running, we can translate the code. We can create a new python script and start creating the translation request that will be sent to InterTrans Engine.
+
+First we will import the protobuf objects necessary to create the request and utillity functions from the InterTrans Python client. 
+```python
+import intertrans.protos_pb2 as ptpb
+from intertrans.utils import submit_request
+```
+
+Next, we will use the code and fuzzy tests from the previous sections to create the translation request. InterTrans Engine allows either fuzzy test or unit tests for verification (but not both at this time, as it is a feature under development). We will use the fuzzy tests for this example. 
+
+#### Input code
+We create a variable to hold the input code.
+
+```python
+input_code = """
+#include <bits/stdc++.h>
+using namespace std;
+
+
+int main (){
+    int L;
+    cin>>L;
+    if(L<1200){
+        cout<<"ABC"<<endl;
+    }
+    else if(L<2800){
+        cout<<"ARC"<<endl;
+    }
+    else{
+        cout<<"AGC"<<endl;
+    }
+
+}
+"""
+```
+
+Then, we create the translation request.
+
+#### Request creation
+
+```python
+batch_request = ptpb.BatchTranslationRequest()
+
+request = ptpb.TranslationRequest()
+request.id = "1" # Unique identifier for the request
+request.seed_language = "C++"
+request.target_language = "Python"
+request.seed_code = input_code
+request.model_name = "gpt-4o-mini-2024-07-18""
+request.prompt_template_name = "prompt_codenet"
+request.regex_template_name = "temperature"
+```
+
+As you can see from the code above, we first create a ```BatchTranslationRequest``` object and then create a ```TranslationRequest``` object. InterTrans Engine is designed to maximize the throughput when translating multiple requests in batch. In this example we use a single request, but you can add more requests to the batch request. We set the seed language to C++ and the target language to Python. This variable is called seed as it is the lenguage of the original code that will be translated. We also set the model name to the ***gpt-4o-mini-2024-07-18*** (GPT-4o mini) model from OpenAI. We also need to specify the prompt template used to build the prompts during the ToCT algorithm. Lastly, the ```regex_template_name``` is the name of the regex used to match and extract source code from the inference output of the model.
+
+#### Intermediate Languages
+As explained in the [Introduction](/guides/introduction/), ToCT uses intermediate languages to improve the translation quality. We can specify the intermediate languages used in the translation by adding them to the ```used_languages``` list in the request object. The more languages used the higher chance of finding a translation, however, it also increases the computational cost. We recommend starting with the following language list and **tweak it according to your needs and experiments on what works best for your use case.** See the [Performance Tuning](/reference/performance/) guide for more information.
+
+
+
+For this tutorial, we will use the following languages as intermediates:
+```python
+request.used_languages.append("Go")
+request.used_languages.append("Java")
+request.used_languages.append("Python")
+request.used_languages.append("C++")
+request.used_languages.append("JavaScript")
+request.used_languages.append("Rust")
+```
+#### Adding fuzzy tests
+Lastly, we add the fuzzy tests to the request and we finish creating the request.
+
+```python
+fuzzytest1 = ptpb.FuzzyTestCase()
+fuzzytest1.stdin_input = "1199"
+fuzzytest1.expected_output = "ABC"
+
+fuzzytest2 = ptpb.FuzzyTestCase()
+fuzzytest2.stdin_input = "1200"
+fuzzytest2.expected_output = "ARC"
+
+fuzzytest3 = ptpb.FuzzyTestCase()
+fuzzytest3.stdin_input = "4208"
+fuzzytest3.expected_output = "AGC"
+
+request.test_suite.fuzzy_suite.append(fuzzytest1)
+request.test_suite.fuzzy_suite.append(fuzzytest2)
+request.test_suite.fuzzy_suite.append(fuzzytest3)
+
+batch_request.translation_requests.append(request)
+```
+
+### Step 4: Submit the request
+Now that we have built the request, we can submit it to the InterTrans Engine. The ```submit_request``` function will send the request to the server and return the results. This function is just a wrapper around gRPC calls to the server.
+
+```python
+request_results = submit_request(batch_request, "localhost:50051")
+```
+
+### Step 5: Check the results
+The ```results``` variable now holds an instance of [BatchTranslationResponse](https://github.com/RISElabQueens/InterTrans/blob/0f21b23d49e88d7f2b159c6bfdd210897c5ae21b/protos/protos.proto#L118) that holds the ```TranslationResponse``` of every translation request.
+
+The requests are indexed according to the order added into the ```BatchTranslationRequest```. Therefore, we can access the results for our translation as follows:
+
+```python
+translation_result = request_results.translation_responses[0]
+```
+This will give us access to the data structure for the ToCT which includes the prompts, intermediate translations, execution times, final translation, verification results, and more.
+
+We can traverse these results by accessing the ```translation_results.paths``` list. Each element in the list is a [ResponseTranslationPath](https://github.com/RISElabQueens/InterTrans/blob/0f21b23d49e88d7f2b159c6bfdd210897c5ae21b/protos/protos.proto#L101) object that holds the data for a specific path in the ToCT. This is very powerful as it allows us to extract information about the translation process to use in further analysis, such as running evaluation metrics on the verification results (e.g. [Computational Accuracy](https://proceedings.neurips.cc/paper/2020/hash/ed23fbf18c2cd35f8c7f8de44f85c08d-Abstract.html), CodeBLEU) or for example use the results from the verification as input for a next iteration of translations (e.g. Iterative translation with compiler feedback).
+
+To keep this tutorial simple, we will utilize the ```get_translation``` function that returns the translated code if the translation was found, or ```None``` if the translation was not found. **A translation is found if all the verification tests pass.**
+
+```python
+python_translation = get_translation(translation_result)
+```
+
+Finally, we can print the translation to the console.
+
+```python
+print(python_translation)
+```
+#### Translated code
+The translated code will look like this:
+
+```python
+L = int(input())
+if L < 1200:
+    print("ABC")
+elif L < 2800:
+    print("ARC")
+else:
+    print("AGC")
+```
+
+#### Conclusion
+As you can see, most of the work is on creating the requests, while InterTrans saves the effort of running inference, executing the code and validating it. If you are translating a dataset, you can create a reusable function that creates the batch request and submits it to the server. This way you can easily translate multiple code snippets in a single run.
+
+You can get the full code for this tutorial here:
+  
+🔗 [📒 quickstart.openapi.ipynb](https://github.com/RISElabQueens/InterTrans/blob/main/examples/quickstart.openai.ipynb)
