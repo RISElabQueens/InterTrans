@@ -15,12 +15,12 @@ Two of the most important parameters to tune are the number of intermediate lang
 
 ### Number of Intermediate Languages
 You can use our empirical results find what languages are most important to include for specific translation pairs. This is shown in our [paper](https://arxiv.org/abs/2411.01063). The higher the CA Decrease (%) in the Figure below, the more important it is keeping that language as intermediate. 
-<Image src="InterTrans/assets/removals_langs.png" width="1600" height="900" alt="Example of Tree of Code Translation" />
+<Image src="/InterTrans/assets/removals_langs.png" width="1600" height="900" alt="Example of Tree of Code Translation" />
 
 ### Depth of the Tree of Code Translations
 The depth of the tree of code translations is the number of intermediate translations in each path. The more intermediate translations, the higher the chance of finding a translation, but the more computationally expensive the process becomes. **A depth of 1 is equivalent to Direct Translation (ToCT is disabled)**.
 
-<Image src="InterTrans/assets/depth_intertrans.png" width="1600" height="900" alt="Example of Tree of Code Translation" />
+<Image src="/InterTrans/assets/depth_intertrans.png" width="1600" height="900" alt="Example of Tree of Code Translation" />
 
 Our empirical experiments show that the Computational Accuracy (quality of translation) increases with the depth, but the gains after a depth of 3 start to show diminishing returns. Therefore, we recommend using a depth of 3 and use a depth of 4 only if you need to maximize the quality of the translation.
 
