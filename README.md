@@ -21,10 +21,10 @@ CodeTransEngine serves as a **backend** for code translation, helping you save t
 
 ## Installation and Quickstart
 
-Please see the [Documentation Page](https://anonymoussubmission.github.io/CodeTransEngine/guides/)
+Please see the [Documentation Page](https://codetransengine-anon.surge.sh/guides/)
 
 ## Replicate Paper Results
-Please see the instructions in the 'Replication' tab on the [Installation Documentation](https://anonymoussubmission.github.io/CodeTransEngine/guides/installation/)
+Please see the instructions in the 'Replication' tab on the [Installation Documentation](https://codetransengine-anon.surge.sh/guides/installation/)
 
 ## License of the Repository
 The contents of this repository are licensed under the MIT License. For detailed information, please refer to the LICENSE.md file.
