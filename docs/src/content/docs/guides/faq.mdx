@@ -6,23 +6,23 @@ sidebar:
     order: 10
 ---
 
-## Q: Does InterTrans Engine have a dashboard?
-A: No, InterTrans is a backend for code translation. This means it is concerned with translating code from one language to another and other operations such as source code extraction and verification of the code. It does not provide a frontend for users to interact with. It is up to the user to create a front end that suits their needs. We provide some examples of how to interact with the InterTrans Engine in the [Tutorial](/docs/InterTrans/guides/tutorials) section.
+## Q: Does CodeTransEngine have a dashboard?
+A: No, CodeTransEngine is a backend for code translation. This means it is concerned with translating code from one language to another and other operations such as source code extraction and verification of the code. It does not provide a frontend for users to interact with. It is up to the user to create a front end that suits their needs. We provide some examples of how to interact with the CodeTransEngine in the [Tutorial](/docs/CodeTransEngine/guides/tutorials) section.
 
 ## Q: Does it give me analytics about the experiments?
-A: No, the purpose of InterTrans Engine is to serve as a backend. That means that the way you interpret the results is left to the user. This could involve utilizing the results to calculate metrics such as Computational Accuracy or CodeBLEU. The engine will return a structure with helpful information for your decision-making.
+A: No, the purpose of CodeTransEngine is to serve as a backend. That means that the way you interpret the results is left to the user. This could involve utilizing the results to calculate metrics such as Computational Accuracy or CodeBLEU. The engine will return a structure with helpful information for your decision-making.
 
 ## Q: Can I use another algorithm instead of Tree of Code Translation (ToCT)?
-A: Yes, InterTrans Engine has ToCT built-in but does not force you to use it. The backend can be seen as a layer in your algorithm implementation that provides translation capabilities. You can implement your algorithm on top of it, such as Few-shot promoting, Compiler feedback, etc.
+A: Yes, CodeTransEngine has ToCT built-in but does not force you to use it. The backend can be seen as a layer in your algorithm implementation that provides translation capabilities. You can implement your algorithm on top of it, such as Few-shot promoting, Compiler feedback, etc.
 
 ## Q: I want to do Direct Translation only, can I do that?
-A: Yes, you can use the InterTrans Engine to do direct translation. Setting ```expansionIntermediaryNodes: 1``` in the [Server Configuration](/reference/config) would be equivalent to performing Direct Translation.
+A: Yes, you can use the CodeTransEngine to do direct translation. Setting ```expansionIntermediaryNodes: 1``` in the [Server Configuration](/reference/config) would be equivalent to performing Direct Translation.
 
 ## Q: What languages are supported?
-A: InterTrans currently supports the following target languages: Python, Java, C, C++, JavaScript, TypeScript, and Go. We are working on adding support for more languages.
+A: CodeTransEngine currently supports the following target languages: Python, Java, C, C++, JavaScript, TypeScript, and Go. We are working on adding support for more languages.
 
 ## Q: Why use Singularity and not Docker containers?
-A: InterTrans Engine uses Singularity containers for code execution. In the first stages of the project, we found that Docker was unstable in our servers when starting and stopping dozens of containers concurrently. Singularity allowed us to have a more stable execution environment. In any case, you can build your preferred executor image in a ```Dockerfile``` and convert it to a Singularity image for use with InterTrans Engine. Please see the script in the repo and [this page for more information](https://docs.sylabs.io/InterTrans/guides/latest/user-guide/build_a_container.html#building-from-dockerfiles).
+A: CodeTransEngine uses Singularity containers for code execution. In the first stages of the project, we found that Docker was unstable in our servers when starting and stopping dozens of containers concurrently. Singularity allowed us to have a more stable execution environment. In any case, you can build your preferred executor image in a ```Dockerfile``` and convert it to a Singularity image for use with CodeTransEngine. Please see the script in the repo and [this page for more information](https://docs.sylabs.io/CodeTransEngine/guides/latest/user-guide/build_a_container.html#building-from-dockerfiles).
 
 ## Q: Can I only use Python as a client?
-A: No, the InterTrans Engine is a gRPC server, which means you can use any language that supports gRPC to interact with it. We provide a Python client as an example, but you can use any language you prefer. We are working on delivering more clients in different languages. In the meantime, you can use the ```build.sh``` script inside the ```protos``` directory to generate the client code for your language.
+A: No, the CodeTransEngine is a gRPC server, which means you can use any language that supports gRPC to interact with it. We provide a Python client as an example, but you can use any language you prefer. We are working on delivering more clients in different languages. In the meantime, you can use the ```build.sh``` script inside the ```protos``` directory to generate the client code for your language.

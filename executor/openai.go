@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"sync"
 
-	"github.com/RISElabQueens/intertrans/common"
+	"github.com/anonymoussubmission/codetransengine/common"
 )
 
 type ChatCompletionRequest struct {

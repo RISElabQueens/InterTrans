@@ -7,11 +7,11 @@ import (
 	"os"
 	"runtime"
 
+	"github.com/anonymoussubmission/codetransengine/algo"
+	"github.com/anonymoussubmission/codetransengine/common"
+	"github.com/anonymoussubmission/codetransengine/executor"
 	"github.com/dgraph-io/badger/v4"
 	"github.com/gosuri/uiprogress"
-	"github.com/RISElabQueens/intertrans/algo"
-	"github.com/RISElabQueens/intertrans/common"
-	"github.com/RISElabQueens/intertrans/executor"
 	"google.golang.org/grpc"
 )
 
@@ -28,7 +28,7 @@ const (
 )
 
 func (m *TranslationServer) BatchTranslate(ctx context.Context, request *common.BatchTranslationRequest) (*common.BatchTranslationResponse, error) {
-	return algo.InterTrans(request), nil
+	return algo.CodeTransEngine(request), nil
 }
 
 func (m *TranslationServer) BatchTranslateCAK(ctx context.Context, request *common.BatchTranslationRequest) (*common.BatchTranslationResponse, error) {
@@ -131,7 +131,7 @@ func main() {
 	numCPU := runtime.NumCPU()
 	fmt.Printf("Info: Goroutines scheduled across %d CPUs\n", numCPU)
 
-	fmt.Printf("🛤️🚀 InterTrans Engine Launched\n")
+	fmt.Printf("🛤️🚀 CodeTransEngine Launched\n")
 	fmt.Printf("-- Listening for requests at %v\n", lis.Addr())
 
 	if err := s.Serve(lis); err != nil {

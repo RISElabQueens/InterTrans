@@ -1,6 +1,6 @@
 import grpc
-import intertrans.protos_pb2_grpc as ptgrpc
-import intertrans.protos_pb2 as ptpb
+import codetransengine.protos_pb2_grpc as ptgrpc
+import codetransengine.protos_pb2 as ptpb
 import time
 
 def json_response_to_grpc(translation_responses):

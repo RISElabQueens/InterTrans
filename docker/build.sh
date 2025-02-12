@@ -1,7 +1,7 @@
 #!/bin/bash
-docker build -t intertrans/cpp-clang:latest ./cpp-clang
-docker build -t intertrans/golang:latest ./golang
-docker build -t intertrans/java:latest ./java
-docker build -t intertrans/node:latest ./node
-docker build -t intertrans/rust:latest ./rust
-docker build -t intertrans/python3:latest ./python3
+docker build -t codetransengine/cpp-clang:latest ./cpp-clang
+docker build -t codetransengine/golang:latest ./golang
+docker build -t codetransengine/java:latest ./java
+docker build -t codetransengine/node:latest ./node
+docker build -t codetransengine/rust:latest ./rust
+docker build -t codetransengine/python3:latest ./python3

@@ -9,11 +9,11 @@ import (
 	"sync"
 	"time"
 
+	"github.com/anonymoussubmission/codetransengine/common"
+	. "github.com/anonymoussubmission/codetransengine/common"
+	. "github.com/anonymoussubmission/codetransengine/executor"
 	"github.com/google/uuid"
 	"github.com/gosuri/uiprogress"
-	"github.com/RISElabQueens/intertrans/common"
-	. "github.com/RISElabQueens/intertrans/common"
-	. "github.com/RISElabQueens/intertrans/executor"
 	"golang.org/x/sync/semaphore"
 )
 
@@ -236,7 +236,7 @@ func DirectCAK(batchRequest *BatchTranslationRequest) *BatchTranslationResponse 
 	return response
 }
 
-func InterTrans(batchRequest *BatchTranslationRequest) *BatchTranslationResponse {
+func CodeTransEngine(batchRequest *BatchTranslationRequest) *BatchTranslationResponse {
 	var wtg sync.WaitGroup
 
 	//We assign an id to the request

@@ -1,6 +1,6 @@
 ---
 title: Configuration
-description: Configure InterTrans
+description: Configure CodeTransEngine
 template: doc
 sidebar:
     order: 4
@@ -8,29 +8,29 @@ sidebar:
 import { Steps } from '@astrojs/starlight/components';
 import { Aside } from '@astrojs/starlight/components';
 
-## Step 1. Configure InterTrans Engine
-Configuring InterTrans can be done through the [.yaml configuration file](/reference/config/). Additionally, you need to specify the paths to the container images for the target languages you want to translate to. This guide will walk you through the steps to configure InterTrans.
+## Step 1. Configure CodeTransEngine
+Configuring CodeTransEngine can be done through the [.yaml configuration file](/reference/config/). Additionally, you need to specify the paths to the container images for the target languages you want to translate to. This guide will walk you through the steps to configure CodeTransEngine.
 
 
 ## Step 2. Download Executor Images
 
-InterTrans uses Singularity containers to execute the translated code. These images contains dependencies for common benchmarks in code translation (CodeNet, HumanEval-X and TransCoder). The containers have an entrypoint script that executes the code and returns the output (or error) to the InterTrans Engine. You would need to use a container for each target language you have in your translation (e.g., if doing Python to Java translation, you would need the Java container image). We recommend that you create your own executor image for your specific use case, as you would be able to include dependencies. Please find more information in the development section of the documentation. 
+CodeTransEngine uses Singularity containers to execute the translated code. These images contains dependencies for common benchmarks in code translation (CodeNet, HumanEval-X and TransCoder). The containers have an entrypoint script that executes the code and returns the output (or error) to the CodeTransEngine. You would need to use a container for each target language you have in your translation (e.g., if doing Python to Java translation, you would need the Java container image). We recommend that you create your own executor image for your specific use case, as you would be able to include dependencies. Please find more information in the development section of the documentation. 
 
 <Steps>
     1. Download the container images for the languages you want to translate to:
 
         | Language       | Download Link                                                                                                        | Author              |
         |----------------|---------------------------------------------------------------------------------------------------------------------|---------------------|
-        | ☕ Java         | [Download Java .sif](https://queensuca-my.sharepoint.com/:u:/g/personal/22dtfk_queensu_ca/ES5emc5Sja5CgLJ7uEg8VYcB8bi8R12LQ1SJ9_wl8Qy-ew?e=J485v2)           | InterTrans Authors   |
-        | 🐍 Python       | [Download Python .sif](https://queensuca-my.sharepoint.com/:u:/g/personal/22dtfk_queensu_ca/EZU7dPYAAodHgjJYkssFaK0BbSzFPCX9XFxmHZKd1BsYyQ?e=dMWGip)       | InterTrans Authors   |
-        | 🐹 Go           | [Download Go .sif](https://queensuca-my.sharepoint.com/:u:/g/personal/22dtfk_queensu_ca/EfsemkYLY7lFnzmVAF-SvLUB2ng8nBrsuPutuZdxBE6l8Q?e=QRzreQ)           | InterTrans Authors   |
-        | 💻 C#           | [Download C# .sif](https://queensuca-my.sharepoint.com/:u:/g/personal/22dtfk_queensu_ca/Ed6lJLQKdshOjwAOZpyvWaIB80UKzV0zHV1tAGuQsvV5Mg?e=9GAtMh)          | InterTrans Authors   |
-        |     C         | [Download C/C++ .sif](https://queensuca-my.sharepoint.com/:u:/g/personal/22dtfk_queensu_ca/EWW1bxIChOtLqKfn3IN7DJEBnsOgFaWsokJGeUNBGEXasg?e=3rQmge)        | InterTrans Authors   |
-        |     C++       | [Download C/C++ .sif](https://queensuca-my.sharepoint.com/:u:/g/personal/22dtfk_queensu_ca/EWW1bxIChOtLqKfn3IN7DJEBnsOgFaWsokJGeUNBGEXasg?e=3rQmge)        | InterTrans Authors   |
-        | 🦀 Rust         | [Download Rust .sif](https://queensuca-my.sharepoint.com/:u:/g/personal/22dtfk_queensu_ca/EetnhC5A6_FEg4-FYV5DmX8BRF3ebvKFArU1GfQ0h15emw?e=WcfDO6)        | InterTrans Authors   |
-        | 🌐 JavaScript   | [Download JavaScript .sif](https://queensuca-my.sharepoint.com/:u:/g/personal/22dtfk_queensu_ca/EUDGKdy-AdtHvJge8M4zWrwBv8iKPl_DYqLX3N5mK0TSuA?e=YeHdsy)  | InterTrans Authors   |
+        | ☕ Java         | [Download Java .sif](https://mega.nz/folder/ld5mFATS#Qn2nlw4B_tf62yAaBcbIeA)           | CodeTransEngine Authors   |
+        | 🐍 Python       | [Download Python .sif](https://mega.nz/folder/ld5mFATS#Qn2nlw4B_tf62yAaBcbIeA)       | CodeTransEngine Authors   |
+        | 🐹 Go           | [Download Go .sif](https://mega.nz/folder/ld5mFATS#Qn2nlw4B_tf62yAaBcbIeA)           | CodeTransEngine Authors   |
+        | 💻 C#           | [Download C# .sif](https://mega.nz/folder/ld5mFATS#Qn2nlw4B_tf62yAaBcbIeA)          | CodeTransEngine Authors   |
+        |     C         | [Download C/C++ .sif](https://mega.nz/folder/ld5mFATS#Qn2nlw4B_tf62yAaBcbIeA)        | CodeTransEngine Authors   |
+        |     C++       | [Download C/C++ .sif](https://mega.nz/folder/ld5mFATS#Qn2nlw4B_tf62yAaBcbIeA)        | CodeTransEngine Authors   |
+        | 🦀 Rust         | [Download Rust .sif](https://mega.nz/folder/ld5mFATS#Qn2nlw4B_tf62yAaBcbIeA)        | CodeTransEngine Authors   |
+        | 🌐 JavaScript   | [Download JavaScript .sif](https://mega.nz/folder/ld5mFATS#Qn2nlw4B_tf62yAaBcbIeA)  | CodeTransEngine Authors   |
 
-    2. Place the container images in a directory accessible by the InterTrans Engine. You can specify the directory for each executor image in the configuration file.
+    2. Place the container images in a directory accessible by the CodeTransEngine. You can specify the directory for each executor image in the configuration file.
 
     3. Update the configuration file with the paths to the container images. For example, if you were to add Python and Java executors, your configuration file could look like this:
         ```yaml
@@ -41,16 +41,16 @@ InterTrans uses Singularity containers to execute the translated code. These ima
         You can find more information on the configuration file in the [Server Configuration](/reference/config/) guide.
 </Steps>
 
-<Aside type='tip'>Have you created an executor image for other languages or environments? Please consider contributing by adding it to this page! [Learn how to contribute](/InterTrans/guides/contribute)</Aside>
+<Aside type='tip'>Have you created an executor image for other languages or environments? Please consider contributing by adding it to this page! [Learn how to contribute](/CodeTransEngine/guides/contribute)</Aside>
 
-Most of our execution containers are based on the great work of [esolang-box](https://github.com/hakatashi/esolang-box). You can use their containers as base images for your own executor images. We made slight modifications to the entrypoint script to make it compatible with the InterTrans Engine. You can find the source code for the containers inside the [docker](https://github.com/RISElabQueens/intertrans/tree/main/docker) folder InterTrans GitHub repo.
+Most of our execution containers are based on the great work of [esolang-box](https://github.com/hakatashi/esolang-box). You can use their containers as base images for your own executor images. We made slight modifications to the entrypoint script to make it compatible with the CodeTransEngine. You can find the source code for the containers inside the [docker](https://anonymoussubmission/codetransengine/tree/main/docker) folder CodeTransEngine GitHub repo.
 
 
 ## Run the server
 To run the server, you can do a Go build or run the program directly following this command:
 
 ```bash
-go intertrans.go runserver config.yaml
+go codetransengine.go runserver config.yaml
 ```
 
 The server will start with the configuration file you have provided and listen at the gRPC address. You can now start sending requests to the server.

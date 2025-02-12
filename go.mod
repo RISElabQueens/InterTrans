@@ -1,4 +1,4 @@
-module github.com/RISElabQueens/intertrans
+module github.com/anonymoussubmission/codetransengine
 
 go 1.22.3
 

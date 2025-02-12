@@ -11,13 +11,13 @@ import { Aside } from '@astrojs/starlight/components';
 
 ### Introduction
 
-Benchmarking LLMs is crucial step in understanding the performance of the LLM in your dataset and to select best model for your use case. In this tutorial, we will show you how to benchmark a model using the InterTrans Engine. 
+Benchmarking LLMs is crucial step in understanding the performance of the LLM in your dataset and to select best model for your use case. In this tutorial, we will show you how to benchmark a model using the CodeTransEngine. 
 
 ### Prerequisites
-We assume you have configured the InterTrans Engine and vLLM server. We will use the ```benchmark.example.yaml``` configuration located at the [root folder of the repository](https://github.com/RISElabQueens/intertrans/blob/main/quickstart.example.yaml), please refer to the [Configuration](/InterTrans/guides/configuration/) guide and set-up **Python Executor Container**.
+We assume you have configured the CodeTransEngine and vLLM server. We will use the ```benchmark.example.yaml``` configuration located at the [root folder of the repository](https://anonymizedsubmissionlink/codetransengine/blob/main/quickstart.example.yaml), please refer to the [Configuration](/CodeTransEngine/guides/configuration/) guide and set-up **Python Executor Container**.
 
 #### Dataset
-[HumanEval-X](https://github.com/THUDM/CodeGeeX/blob/main/codegeex/benchmark/README.md) extends the python-only code generation evaluation dataset [HumanEval](https://github.com/openai/human-eval) with additional canonical solutions and test cases in six PLs: C++, Go, Java, JavaScript, Python, and Rust. We create a subset of 1,050 translation problems, stratified across the 30 source-target translation pairs. This subset is used in the [InterTrans paper](https://icse2025.hotcrp.com/doc/icse2025-paper1926-revised_manuscript.pdf) and will be used in this tutorial. **For simplicity, we will evaluate a model on a single translation pair** (Java to Python), but if you set-up all the executor containers in your configuration, you can evaluate the model on all the translation pairs.
+[HumanEval-X](https://github.com/THUDM/CodeGeeX/blob/main/codegeex/benchmark/README.md) extends the python-only code generation evaluation dataset [HumanEval](https://github.com/openai/human-eval) with additional canonical solutions and test cases in six PLs: C++, Go, Java, JavaScript, Python, and Rust. We create a subset of 1,050 translation problems, stratified across the 30 source-target translation pairs. This subset is used in the [CodeTransEngine paper](https://icse2025.hotcrp.com/doc/icse2025-paper1926-revised_manuscript.pdf) and will be used in this tutorial. **For simplicity, we will evaluate a model on a single translation pair** (Java to Python), but if you set-up all the executor containers in your configuration, you can evaluate the model on all the translation pairs.
 
 ### Metrics
 Similar to recent studies on LLM-based code translation we will use execution-based evaluation metrics, i.e., Computational Accuracy (CA). CA assesses whether a transformed target program produces the same outputs as the source function when given identical inputs. CA on a benchmark is the ratio of translation problems that have correctly translated to the target language. It is advisable to use CA over text-based metrics like BLEU score because LLMs can produce valid translations that differ from humanwritten references; text-based metrics might be misleading when evaluating translated code against the reference, i.e., they can yield high scores despite the two code versions [being functionally distinct](https://arxiv.org/abs/2302.05527). We will utilize the CA@10 variation, which counts a translation as correct if at least one of 10 possible candidate translations is correct (this is similar to pass@k metric).
@@ -28,15 +28,15 @@ The first step is to launch the vLLM server in a terminal with the model you wil
 ```bash
 vllm serve ise-uiuc/Magicoder-S-DS-6.7B --dtype auto --api-key token --port 8000 --host localhost
 ```
-<Aside>You can use the OpenAI API or any other compatible API as the inference backend instead of vLLM. Please find an example in the [Quickstart with OpenAI](/InterTrans/guides/tutorials/openai/) section.</Aside>
+<Aside>You can use the OpenAI API or any other compatible API as the inference backend instead of vLLM. Please find an example in the [Quickstart with OpenAI](/CodeTransEngine/guides/tutorials/openai/) section.</Aside>
 
 Depending on your GPU, you may want to set ```--max-model-len``` to a lower value (e.g., ```--max-model-len 49024```) value to avoid running out of memory or try a smaller model. 
 
-### Step 2: Launch InterTrans Engine
-The next step is to launch the InterTrans Engine. We will use the ```quickstart.example.yaml``` configuration file. 
+### Step 2: Launch CodeTransEngine
+The next step is to launch the CodeTransEngine. We will use the ```quickstart.example.yaml``` configuration file. 
 
 ```bash
-    go run intertrans.go runserver examples/quickstart.example.yaml
+    go run codetransengine.go runserver examples/quickstart.example.yaml
 ```
 
 ### Step 3: Get the dataset
@@ -57,7 +57,7 @@ df_java_python = df[(df['source_language'] == 'Java') & (df['target_language'] =
 ```
 
 ### Step 5: Create the batch translation request
-Simular to the [Quickstart](/InterTrans/guides/tutorials/) guide, we will create a batch translation request with individual requests for each Java to Python translation pair sample in the benchmark.
+Simular to the [Quickstart](/CodeTransEngine/guides/tutorials/) guide, we will create a batch translation request with individual requests for each Java to Python translation pair sample in the benchmark.
 
 ```python
 batch_request = ptpb.BatchTranslationRequest()
@@ -95,10 +95,10 @@ for index, row in df_java_python.iterrows():
 
     batch_request.translation_requests.append(request)
 ```
-Here you can see a few differences from the [Quickstart](/InterTrans/guides/tutorials/) guide. The HumanEval-X dataset uses Unit Test Cases (unlike CodeNet that uses Fuzzy Test Cases). Therefore, they are added to the request so InterTrans Engine can execute them on the translated code, to verify its correctness. Additionally, we add the signature of the target code to the request (as expected by the Unit Test), so the translated code has higher chances of having the correct function signature, and the function can be called correctly by the test case.
+Here you can see a few differences from the [Quickstart](/CodeTransEngine/guides/tutorials/) guide. The HumanEval-X dataset uses Unit Test Cases (unlike CodeNet that uses Fuzzy Test Cases). Therefore, they are added to the request so CodeTransEngine can execute them on the translated code, to verify its correctness. Additionally, we add the signature of the target code to the request (as expected by the Unit Test), so the translated code has higher chances of having the correct function signature, and the function can be called correctly by the test case.
 
 ### Step 6: Submit the batch request
-Finally, we submit the batch request to the InterTrans Engine.
+Finally, we submit the batch request to the CodeTransEngine.
 
 ```python
 response = submit_request_cak(batch_request, "localhost:50051")
@@ -108,10 +108,10 @@ response = submit_request_cak(batch_request, "localhost:50051")
 
 
 ### Step 7: Calculate the CA@10 metric
-Finally, we calculate the CA@10 metric for the translation pair. To do this we first "flatten" the response from the InterTrans Engine by converting the code to a pandas DataFrame that we can easily manipulate. The Python client provides a convenient function to do this: ```response_to_pandas```.
+Finally, we calculate the CA@10 metric for the translation pair. To do this we first "flatten" the response from the CodeTransEngine by converting the code to a pandas DataFrame that we can easily manipulate. The Python client provides a convenient function to do this: ```response_to_pandas```.
 
 ```python
-from intertrans.data import response_to_pandas
+from codetransengine.data import response_to_pandas
 df_response = response_to_pandas(response)
 ```
 
@@ -128,16 +128,16 @@ Finally, we print the value for the CA metric that we obtained:
 print(f"CA@10: {ca_metric}")
 ```
 
-The code you see above is based on the implementation of the ```get_ca_metric``` helper function in the Python client. You could have used the ```get_ca_metric``` function directly, but we wanted to show you how you can implement your own metric on top of the results of InterTrans Engine.
+The code you see above is based on the implementation of the ```get_ca_metric``` helper function in the Python client. You could have used the ```get_ca_metric``` function directly, but we wanted to show you how you can implement your own metric on top of the results of CodeTransEngine.
 
 ```python
-from intertrans.data import get_ca_metric
+from codetransengine.data import get_ca_metric
 print(f"CA@10: {get_ca_metric(response, 10)}")
 ```
 
 #### Conclusion
-You can create batch requests to translate whole datasets for benchmarking purposes. The InterTrans Engine provides a flexible API to interact with the engine and calculate metrics on top of the responses.
+You can create batch requests to translate whole datasets for benchmarking purposes. The CodeTransEngine provides a flexible API to interact with the engine and calculate metrics on top of the responses.
 
-You can get the full code for this tutorial here:
+You can get this code here:
 
-🔗 [📒 benchmarking.ipynb](https://github.com/RISElabQueens/intertrans/blob/main/examples/benchmarking.ipynb)
+🔗 [📒 benchmarking.ipynb](https://anonymizedsubmissionlink/codetransengine/blob/main/examples/benchmarking.ipynb)

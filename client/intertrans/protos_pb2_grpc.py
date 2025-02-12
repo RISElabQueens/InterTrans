@@ -2,7 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-import intertrans.protos_pb2 as protos__pb2
+import codetransengine.protos_pb2 as protos__pb2
 
 
 class TranslationServiceStub(object):

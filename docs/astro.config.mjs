@@ -6,16 +6,16 @@ import tailwind from '@astrojs/tailwind';
 
 // https://astro.build/config
 export default defineConfig({
-    site: 'https://riselabqueens.github.io',
-    base: '/InterTrans/',
+    site: 'https://codetransengine-anon.surge.sh',
+    base: '/',
     output: 'static',
     integrations: [starlight({
-        title: '🛤️ InterTrans Engine',
+        title: '🛤️ CodeTransEngine',
         customCss: [
             './src/styles/global.css',
         ],
         social: {
-            github: 'https://github.com/RISElabQueens/InterTrans',
+            github: 'https://anonymizedsubmissionlink/CodeTransEngine',
         },
         sidebar: [
             {

@@ -6,7 +6,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/RISElabQueens/intertrans/common"
+	"github.com/anonymoussubmission/codetransengine/common"
 )
 
 var mutex sync.Mutex

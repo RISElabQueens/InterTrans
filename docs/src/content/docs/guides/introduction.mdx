@@ -1,25 +1,28 @@
 ---
 title: Introduction
-description: Introduction to InterTrans Engine
+description: Introduction to CodeTransEngine
 template: doc
 sidebar:
     order: 2
 ---
 import { Image } from 'astro:assets';
 
-### What is InterTrans?
-[InterTrans](https://arxiv.org/abs/2411.01063) is a methodology to convert source code across programming languages (i.e. code translation) that utilizes planning and off-the-shelf Large Language Models (LLMs) to enhance the correctness of the produced translation (i.e. the program output by the LLM). 
-Previous approaches instruct LLMs to perform a **direct translation**, that is, translate from a **source programming language (A)** to a **target programming language (B)**. 
-InterTrans instead attemps to exploit the multi-lingual capacity of LLMs and, whenever a direct translation is unsuccessful, it continues to explore translation through other programming languages different than the target language (B). This process forms and is guided by a **Tree of Code Translation (ToCT)**. 
-Tree of Code Translations (ToCT) allows InterTrans to leverage intermediate generations in other PLs as a bridge towards the wanted translation in the target language B. 
-Our research demonstrates that this methodology achieves an absolute improvement of 18.3% to 43.3% in Computation Accuracy (CA) for InterTrans compared to Direct Translation (CA@10).
+### What is N-Shot Translation?
+N-Shot Translation is the use of a prompt with 0-shot (no examples) or few-shot (1-5 examples) to guide the translation of a model. When there are no examples (0-shot) this is refered as *Direct Translation*.
 
-<Image src="/InterTrans/assets/tree_of_code_translation.png" width="1600" height="900" alt="Example of Tree of Code Translation" />
+### What is InterTrans?
+[CodeTransEngine](https://arxiv.org/abs/2411.01063) is a methodology to convert source code across programming languages (i.e. code translation) that utilizes planning and off-the-shelf Large Language Models (LLMs) to enhance the correctness of the produced translation (i.e. the program output by the LLM). 
+Previous approaches instruct LLMs to perform a **direct translation**, that is, translate from a **source programming language (A)** to a **target programming language (B)**. 
+CodeTransEngine instead attemps to exploit the multi-lingual capacity of LLMs and, whenever a direct translation is unsuccessful, it continues to explore translation through other programming languages different than the target language (B). This process forms and is guided by a **Tree of Code Translation (ToCT)**. 
+Tree of Code Translations (ToCT) allows CodeTransEngine to leverage intermediate generations in other PLs as a bridge towards the wanted translation in the target language B. 
+Research demonstrates that this methodology achieves an absolute improvement of 18.3% to 43.3% in Computation Accuracy (CA) for InterTrans compared to Direct Translation (CA@10).
+
+<Image src="/assets/tree_of_code_translation.png" width="1600" height="900" alt="Example of Tree of Code Translation" />
 
 The image above shows an example of a Tree of Code Translation. The source program to be translated is in Python, and the target language is Java. The tree shows the intermediate translations in other languages that are used to bridge the gap between the source and target languages. The translation order is shown through the numbers on the edges of the tree. The initial translation from Python to Java (direct translation) is unsuccessful (red nodes), so the tree explores other languages to find a successful translation. It finally finds the correct translation in Java through intermediate translations in C++ (green node).
 
-### InterTrans Engine Architecture
-The InterTrans Engine is a server that provides an API for translating code across programming languages. It was originally designed to run the Tree of Code Translation (ToCT) algorithm, but now **supports a variety of different techniques**. This API is exposed through [gRPC](https://grpc.io/) and can be accessed by clients written in any language that supports gRPC. We provide a Python client that can be used to interact with the InterTrans Engine.
+### CodeTransEngine Architecture
+The CodeTransEngine is a server that provides an API for translating code across programming languages. This API is exposed through [gRPC](https://grpc.io/) and can be accessed by clients written in any language that supports gRPC. We provide a Python client that can be used to interact with the CodeTransEngine.
 ```
       +-----------------------------------------+
       | External Consumer                       |
@@ -29,7 +32,7 @@ The InterTrans Engine is a server that provides an API for translating code acro
                             gRPC
                             ↓
       +-----------------------------------------+
-      | InterTrans Engine                       |
+      | CodeTransEngine                       |
       +-----------------------------------------+                               
                ↓                             ↓                       
         OpenAI API Spec               Code Execution                   

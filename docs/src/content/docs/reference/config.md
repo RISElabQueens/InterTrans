@@ -57,7 +57,7 @@ Controls the number of Singularity containers that can run concurrently to execu
 ### numInferenceWorkers: integer
 Controls the number of concurrent inference request on the OpenAI API compatible server (e.g. vLLM). ```useComputeEfficientMode: false```
 ### useComputeEfficientMode: boolean
-When set to ``true``, it disables concurrency in InterTrans. This means that translations inside ToCT are processed sequentially and when there is an error in the path (e.g. can't extract source code, or inference failed) the algorithm moves on to the next path. When a translation is found, the algorithm returns immediately. Setting this to ``false`` enables higher throughput and faster translations, at the expense of possibly additional computations. When set to ``false`` finding a translation in a path does best-effort stopping computations in other paths.
+When set to ``true``, it disables concurrency in CodeTransEngine. This means that translations inside ToCT are processed sequentially and when there is an error in the path (e.g. can't extract source code, or inference failed) the algorithm moves on to the next path. When a translation is found, the algorithm returns immediately. Setting this to ``false`` enables higher throughput and faster translations, at the expense of possibly additional computations. When set to ``false`` finding a translation in a path does best-effort stopping computations in other paths.
 ### serverAddress: ip address
 gRPC endpoint address for the server
 ### serverPort: ip address
@@ -93,7 +93,7 @@ OpenAPI Compatible Server endpoints to send the inference requests. If more than
 ### inferenceApiToken
 Token for the OpenAPI endpoint
 ### executionContainers: dict
-Each key in the dictionary corresponds to a target programming language enabled in InterTrans engine. The value of the dictionary is the ```path``` containing the .sif file (Singularity container) capable of executing code for such language.
+Each key in the dictionary corresponds to a target programming language enabled in CodeTransEngine engine. The value of the dictionary is the ```path``` containing the .sif file (Singularity container) capable of executing code for such language.
 ### promptTemplates: list
 List of prompt templates to be used during the ToCT algorithm. Please see the section [Prompt templates](/reference/prompt) to understand supported parameters for the prompt.
 ### inferenceBackend: enum (optional)
