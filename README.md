@@ -2,7 +2,7 @@
 
 ## Welcome
 
-Welcome to the documentation for CodeTransEngine. This is a **ready-to-use backend** for Large Language Model (LLM) based code translation across programming languages. This tool enables practitioners to translate source code across programming languages at scale, by leveraging off-the-shelf Large Language Models (LLM). This backend integrates the Tree of Code Translation (ToCT) algorithm used in the CodeTransEngine Paper can be used with few-shot prompting, agents or newer algorithms.
+Welcome to the documentation for CodeTransEngine. This is a **ready-to-use backend** for Large Language Model (LLM) based code translation across programming languages. This tool enables practitioners to translate source code across programming languages at scale, by leveraging off-the-shelf Large Language Models (LLM).
 
 ## 🌟 Why use CodeTransEngine?
 
