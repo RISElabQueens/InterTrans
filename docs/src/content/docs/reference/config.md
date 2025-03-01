@@ -95,7 +95,7 @@ Token for the OpenAPI endpoint
 ### executionContainers: dict
 Each key in the dictionary corresponds to a target programming language enabled in InterTrans engine. The value of the dictionary is the ```path``` containing the .sif file (Singularity container) capable of executing code for such language.
 ### promptTemplates: list
-List of prompt templates to be used during the ToCT algorithm. Please see the section [Prompt templates](/reference/prompt) to understand supported parameters for the prompt.
+List of prompt templates to be used during the ToCT algorithm. Please see the section [Prompt templates](/InterTrans/reference/prompt) to understand supported parameters for the prompt.
 ### inferenceBackend: enum (optional)
 If this field is not set, the inference backend would default to an OpenAI compatible API. If set to ```vllm`` it would enable vLLM-specific parameters in the OpenAI API request to vLLM.
 

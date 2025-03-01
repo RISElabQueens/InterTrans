@@ -49,7 +49,7 @@ The code is accompanied by fuzzy tests, which are pairs of input-output examples
 | 4208        | AGC             |
 
 ### Step 1: Launch vLLM
-The first step is to launch the vLLM server in a terminal with the model you will use for translation. In this tutorial we will use the [ise-uiuc/Magicoder-S-DS-6.7B](https://huggingface.co/ise-uiuc/Magicoder-S-DS-6.7B/tree/main) model from HuggingFace. We need to launch the vLLM instance on the same IP address and port we configure in the [Engine configuration](/reference/config/).
+The first step is to launch the vLLM server in a terminal with the model you will use for translation. In this tutorial we will use the [ise-uiuc/Magicoder-S-DS-6.7B](https://huggingface.co/ise-uiuc/Magicoder-S-DS-6.7B/tree/main) model from HuggingFace. We need to launch the vLLM instance on the same IP address and port we configure in the [Engine configuration](/InterTrans/reference/config/).
 
 ```bash
 vllm serve ise-uiuc/Magicoder-S-DS-6.7B --dtype auto --api-key token --port 8000 --host localhost
@@ -121,7 +121,7 @@ request.regex_template_name = "temperature"
 As you can see from the code above, we first create a ```BatchTranslationRequest``` object and then create a ```TranslationRequest``` object. InterTrans Engine is designed to maximize the throughput when translating multiple requests in batch. In this example we use a single request, but you can add more requests to the batch request. We set the seed language to C++ and the target language to Python. This variable is called seed as it is the lenguage of the original code that will be translated. We also set the model name to the Magicoder model we launched in the vLLM server. We also need to specify the prompt template used to build the prompts during the ToCT algorithm. Lastly, the ```regex_template_name``` is the name of the regex used to match and extract source code from the inference output of the model.
 
 #### Intermediate Languages
-As explained in the [Introduction](/InterTrans/guides/introduction/), ToCT uses intermediate languages to improve the translation quality. We can specify the intermediate languages used in the translation by adding them to the ```used_languages``` list in the request object. The more languages used the higher chance of finding a translation, however, it also increases the computational cost. We recommend starting with the following language list and **tweak it according to your needs and experiments on what works best for your use case.** See the [Performance Tuning](/reference/performance/) guide for more information.
+As explained in the [Introduction](/InterTrans/guides/introduction/), ToCT uses intermediate languages to improve the translation quality. We can specify the intermediate languages used in the translation by adding them to the ```used_languages``` list in the request object. The more languages used the higher chance of finding a translation, however, it also increases the computational cost. We recommend starting with the following language list and **tweak it according to your needs and experiments on what works best for your use case.** See the [Performance Tuning](/InterTrans/reference/performance/) guide for more information.
 
 
 

@@ -23,7 +23,7 @@ We assume you have configured the InterTrans Engine and vLLM server. We will use
 Similar to recent studies on LLM-based code translation we will use execution-based evaluation metrics, i.e., Computational Accuracy (CA). CA assesses whether a transformed target program produces the same outputs as the source function when given identical inputs. CA on a benchmark is the ratio of translation problems that have correctly translated to the target language. It is advisable to use CA over text-based metrics like BLEU score because LLMs can produce valid translations that differ from humanwritten references; text-based metrics might be misleading when evaluating translated code against the reference, i.e., they can yield high scores despite the two code versions [being functionally distinct](https://arxiv.org/abs/2302.05527). We will utilize the CA@10 variation, which counts a translation as correct if at least one of 10 possible candidate translations is correct (this is similar to pass@k metric).
 
 ### Step 1: Launch vLLM
-The first step is to launch the vLLM server in a terminal with the model you will use for translation. In this tutorial we will use the [ise-uiuc/Magicoder-S-DS-6.7B](https://huggingface.co/ise-uiuc/Magicoder-S-DS-6.7B/tree/main) model from HuggingFace. We need to launch the vLLM instance on the same IP address and port we configure in the [Engine configuration](/reference/config/).
+The first step is to launch the vLLM server in a terminal with the model you will use for translation. In this tutorial we will use the [ise-uiuc/Magicoder-S-DS-6.7B](https://huggingface.co/ise-uiuc/Magicoder-S-DS-6.7B/tree/main) model from HuggingFace. We need to launch the vLLM instance on the same IP address and port we configure in the [Engine configuration](/InterTrans/reference/config/).
 
 ```bash
 vllm serve ise-uiuc/Magicoder-S-DS-6.7B --dtype auto --api-key token --port 8000 --host localhost
@@ -40,7 +40,7 @@ The next step is to launch the InterTrans Engine. We will use the ```quickstart.
 ```
 
 ### Step 3: Get the dataset
-Download the HumanEval-X dataset from the [Benchmark Datasets](/reference/datasets/) page
+Download the HumanEval-X dataset from the [Benchmark Datasets](/InterTrans/reference/datasets/) page
 
 ### Step 4: Load and filter the dataset
 Load the dataset and keep only the translation pair you want to evaluate. In this tutorial, we will evaluate the Java to Python translation pair.

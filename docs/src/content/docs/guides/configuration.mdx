@@ -9,7 +9,7 @@ import { Steps } from '@astrojs/starlight/components';
 import { Aside } from '@astrojs/starlight/components';
 
 ## Step 1. Configure InterTrans Engine
-Configuring InterTrans can be done through the [.yaml configuration file](/reference/config/). Additionally, you need to specify the paths to the container images for the target languages you want to translate to. This guide will walk you through the steps to configure InterTrans.
+Configuring InterTrans can be done through the [.yaml configuration file](/InterTrans/reference/config/). Additionally, you need to specify the paths to the container images for the target languages you want to translate to. This guide will walk you through the steps to configure InterTrans.
 
 
 ## Step 2. Download Executor Images
@@ -38,7 +38,7 @@ InterTrans uses Singularity containers to execute the translated code. These ima
                 "Python":     "./singularity/img/python3.sif"
                 "Java":       "./singularity/img/java.sif"
         ```
-        You can find more information on the configuration file in the [Server Configuration](/reference/config/) guide.
+        You can find more information on the configuration file in the [Server Configuration](/InterTrans/reference/config/) guide.
 </Steps>
 
 <Aside type='tip'>Have you created an executor image for other languages or environments? Please consider contributing by adding it to this page! [Learn how to contribute](/InterTrans/guides/contribute)</Aside>
