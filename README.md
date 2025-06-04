@@ -1,4 +1,4 @@
-# 🛤️ InterTrans Engine (Depracated)
+# 🛤️ InterTrans Engine (Deprecated)
 
 **🚨 News (2025-03-5):** Our system paper [*CodeTransEngine: Ready-to-Use Backend for LLM-Based Code Translation*](https://openreview.net/pdf?id=9WHJuzjPJf) has been accepted to the [ICLR 2025 Third Workshop on Deep Learning for Code](https://dl4c.github.io/)
 
